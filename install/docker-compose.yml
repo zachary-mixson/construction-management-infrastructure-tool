@@ -1,0 +1,16 @@
+version: '3.2'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: pg
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - shared-volume:/home
+
+volumes:
+  shared-volume:
