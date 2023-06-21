@@ -1,5 +1,4 @@
 const express = require("express")
-const {createUser,deleteUser,changeUsername,updatePassword} = require("./userlogins")
 const PORT = process.env.PORT || 3001;
 const app = express();
 const routes = require("./routes/routes");
