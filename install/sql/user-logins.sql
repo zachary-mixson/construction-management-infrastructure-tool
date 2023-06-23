@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS userLogins
 (
     username 		TEXT,
-    password		TEXT
+    password		TEXT,
+    phoneNumbers    TEXT
 );

@@ -5,7 +5,7 @@ const routes = require("./routes/routes");
 
 
 app.get("/api", (req, res) => {
-    res.json({ message: "Hello World!" });
+    res.json({ message: "DMIT" });
 });
 
 app.use('/',routes);
