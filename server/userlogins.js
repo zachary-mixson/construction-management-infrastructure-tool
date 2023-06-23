@@ -10,23 +10,48 @@ const client = new Client({
 
 client.connect();
 
-const createUser = (username, password) => {
+const createUser = (username, password, phonenumber) => {
     return new Promise((resolve, reject) => {
-        const insertQuery = {
-            text: 'INSERT INTO public.userlogins(username, password) VALUES($1, $2)',
-            values: [username, password],
+        // Check if username or phone number already exists in the database
+        const checkQuery = {
+            text: 'SELECT username, phonenumber FROM public.userlogins WHERE username = $1 OR phonenumber = $2',
+            values: [username, phonenumber],
         };
 
-        client.query(insertQuery, (err, res) => {
+        client.query(checkQuery, (err, res) => {
             if (err) {
                 console.log(err.stack);
-                reject(err); // Reject the promise if there's an error
+                reject(err);
             } else {
-                resolve(); // Resolve the promise if the query is successful
+                if (res.rows.length > 0) {
+                    // User with the same username or phone number already exists
+                    const existingUser = res.rows[0];
+                    if (existingUser.username === username) {
+                        reject(new Error('Username already taken'));
+                    } else {
+                        reject(new Error('Phone number not available'));
+                    }
+                } else {
+                    // Insert the new user into the database
+                    const insertQuery = {
+                        text: 'INSERT INTO public.userlogins(username, password, phonenumber) VALUES($1, $2, $3)',
+                        values: [username, password, phonenumber],
+                    };
+
+                    client.query(insertQuery, (err, res) => {
+                        if (err) {
+                            console.log(err.stack);
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    });
+                }
             }
         });
     });
 };
+
 
 const deleteUser = (username, password) => {
     return new Promise((resolve, reject) => {

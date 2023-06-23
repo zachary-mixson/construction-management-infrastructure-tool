@@ -17,7 +17,27 @@ function SignUp() {
         e.preventDefault();
         console.log(details);
 
-
+        // Make HTTP request to the server
+        fetch('/createUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: details.username,
+                password: details.password,
+                phonenumber: details.phonenumber
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Handle the response from the server
+                console.log(data);
+                // Add your own logic here based on the response from the server
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     };
 
 

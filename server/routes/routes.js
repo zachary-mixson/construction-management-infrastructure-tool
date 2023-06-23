@@ -1,6 +1,6 @@
 const express = require('express');
 
-const{
+const {
     createUser,
     deleteUser,
     changeUsername,
@@ -9,49 +9,58 @@ const{
 
 const router = express.Router();
 
-router.get('/createUser/:username/:password',(req,res) => {
-    createUser(req.params.username,req.params.password)
+router.post('/createUser', (req, res) => {
+    console.log('Received Post')
+    const { username, password, phonenumber } = req.body;
+    console.log(username)
+    console.log(password)
+
+    createUser(username, password,phonenumber)
         .then(() => {
-            res.send("User created successfully");
+            res.json({ message: "User created successfully" });
         })
         .catch((err) => {
             console.error(err);
-            res.status(500).send('Internal Server Error');
+            res.status(500).json({ error: 'Internal Server Error' });
         });
 });
 
-router.get('/deleteUser/:username/:password',(req,res) => {
-    deleteUser(req.params.username,req.params.password)
+router.post('/deleteUser', (req, res) => {
+    const { username, password } = req.body;
+
+    deleteUser(username, password)
         .then(() => {
-            res.send("User deleted successfully");
+            res.json({ message: "User deleted successfully" });
         })
         .catch((err) => {
             console.error(err);
-            res.status(500).send('Internal Server Error');
+            res.status(500).json({ error: 'Internal Server Error' });
         });
 });
 
-router.get("/updatePassword/:username/:currentPassword/:newPassword", (req, res) => {
-    updatePassword(req.params.username, req.params.currentPassword, req.params.newPassword)
-        .then(()=>{
-            res.send("Password updated successfully.");
+router.post("/updatePassword", (req, res) => {
+    const { username, currentPassword, newPassword } = req.body;
 
+    updatePassword(username, currentPassword, newPassword)
+        .then(() => {
+            res.json({ message: "Password updated successfully" });
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.error(err);
-            res.status(500).send('Internal Server Error')
+            res.status(500).json({ error: 'Internal Server Error' });
         });
 });
 
-router.get("/changeUsername/:currentUsername/:password/:newUsername", (req, res) => {
-    changeUsername(req.params.currentUsername, req.params.password, req.params.newUsername)
-        .then(()=>{
-            res.send("Username changed successfully.");
+router.post("/changeUsername", (req, res) => {
+    const { currentUsername, password, newUsername } = req.body;
 
+    changeUsername(currentUsername, password, newUsername)
+        .then(() => {
+            res.json({ message: "Username changed successfully" });
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.error(err);
-            res.status(500).send('Internal Server Error')
+            res.status(500).json({ error: 'Internal Server Error' });
         });
 });
 

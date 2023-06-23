@@ -14,13 +14,7 @@ return (
             <input required name="password" type="password" />
             <label>Password</label>
         </div>
-        <a href="#">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            Login
-        </a>
+        <button className='button'>Submit </button>
     </form>
         <br/>
         <a href="/signUp" className="a2">Sign up!</a>
