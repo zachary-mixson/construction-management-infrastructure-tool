@@ -10,7 +10,7 @@ const client = new Client({
 
 client.connect();
 
-const createUser = (username, password, phonenumber) => {
+const createUser = (username, password, phonenumber,email) => {
     return new Promise((resolve, reject) => {
         // Check if username or phone number already exists in the database
         const checkQuery = {
@@ -34,8 +34,8 @@ const createUser = (username, password, phonenumber) => {
                 } else {
                     // Insert the new user into the database
                     const insertQuery = {
-                        text: 'INSERT INTO public.userlogins(username, password, phonenumber) VALUES($1, $2, $3)',
-                        values: [username, password, phonenumber],
+                        text: 'INSERT INTO public.userlogins(username, password, phonenumber,email) VALUES($1, $2, $3,$4)',
+                        values: [username, password, phonenumber,email],
                     };
 
                     client.query(insertQuery, (err, res) => {
@@ -71,11 +71,11 @@ const deleteUser = (username, password) => {
     });
 };
 
-const changeUsername = (currentUsername, password, newUsername) => {
+const changeUsername = (currentUsername, password, newUsername,email) => {
     return new Promise((resolve, reject) => {
         const updateQuery = {
-            text: 'UPDATE public.userlogins SET username = $1 WHERE username = $2 AND password = $3',
-            values: [newUsername, currentUsername, password],
+            text: 'UPDATE public.userlogins SET username = $1 WHERE username = $2 AND password = $3 AND email = $4',
+            values: [newUsername, currentUsername, password, email],
         };
 
         client.query(updateQuery, (err, res) => {

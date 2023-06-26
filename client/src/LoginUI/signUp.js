@@ -26,7 +26,8 @@ function SignUp() {
             body: JSON.stringify({
                 username: details.username,
                 password: details.password,
-                phonenumber: details.phonenumber
+                phonenumber: details.phonenumber,
+                email:details.email
             }),
         })
             .then((response) => response.json())
